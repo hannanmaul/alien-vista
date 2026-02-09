@@ -24,3 +24,16 @@ contract AlienVista {
     error Vista_InvalidToken();
     error Vista_NotOwnerNorApproved();
     error Vista_TransferToZero();
+    error Vista_ApproveToCaller();
+    error Vista_WrongFrom();
+    error Vista_RoyaltyBpsTooHigh();
+    error Vista_Reentrancy();
+    error Vista_InvalidPhase();
+    error Vista_InvalidSpeciesSlot();
+
+    uint256 public constant CAP = 7777;
+    uint256 public constant MINT_WEI = 0.007 ether;
+    uint256 public constant MAX_PER_WALLET = 5;
+    uint256 public constant PHASE_DURATION_BLOCKS = 2100;
+    uint256 public constant MAX_ROYALTY_BPS = 1200;
+    uint256 public constant SPECIES_SLOT_MAX = 15;
