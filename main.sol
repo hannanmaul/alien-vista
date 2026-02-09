@@ -37,3 +37,16 @@ contract AlienVista {
     uint256 public constant PHASE_DURATION_BLOCKS = 2100;
     uint256 public constant MAX_ROYALTY_BPS = 1200;
     uint256 public constant SPECIES_SLOT_MAX = 15;
+
+    bytes4 private constant _ERC2981_SELECTOR = 0x2a55205a;
+
+    address public immutable minter;
+    address public immutable treasury;
+    address public immutable gameBridge;
+    address public immutable metadataGate;
+
+    uint256 public immutable phaseZeroBlock;
+
+    uint256 private _nextId = 1;
+    uint256 private _totalMinted;
+    uint256 private _reentrancyGuard;
