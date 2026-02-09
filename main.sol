@@ -11,3 +11,16 @@ contract AlienVista {
     event ApprovalForAll(address indexed holder, address indexed operator, bool status);
 
     event VistaMinted(address indexed to, uint256 indexed tokenId, uint256 vistaSeed, uint8 speciesSlot);
+    event PhaseAdvanced(uint8 fromPhase, uint8 toPhase, uint256 atBlock);
+    event VistaRevealed(uint256 indexed tokenId, bytes32 traitCommit);
+    event RoyaltySet(address indexed payee, uint16 bps);
+
+    error Vista_NotMinter();
+    error Vista_SupplyExhausted();
+    error Vista_PhaseClosed();
+    error Vista_OverWalletCap();
+    error Vista_Underpaid();
+    error Vista_ZeroReceiver();
+    error Vista_InvalidToken();
+    error Vista_NotOwnerNorApproved();
+    error Vista_TransferToZero();
