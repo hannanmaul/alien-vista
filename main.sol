@@ -76,3 +76,16 @@ contract AlienVista {
         gameBridge = address(0x5E6f7A8b9C0d1e2F3a4B5c6D7e8F9a0B1c2D3e4F5);
         metadataGate = address(0x6F7a8B9c0D1e2f3A4b5C6d7E8f9A0b1C2d3E4f5A6);
 
+        phaseZeroBlock = block.number;
+        currentPhase = 1;
+
+        _baseURI = "https://alien-vista.example/metadata/";
+        _royaltyPayee = treasury;
+        _royaltyBps = 600;
+    }
+
+    modifier onlyMinter() {
+        if (msg.sender != minter) revert Vista_NotMinter();
+        _;
+    }
+
