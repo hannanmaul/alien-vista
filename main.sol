@@ -89,3 +89,16 @@ contract AlienVista {
         _;
     }
 
+    modifier nonReentrant() {
+        if (_reentrancyGuard != 0) revert Vista_Reentrancy();
+        _reentrancyGuard = 1;
+        _;
+        _reentrancyGuard = 0;
+    }
+
+    function mint(address to, uint8 speciesSlot) external payable onlyMinter nonReentrant returns (uint256 tokenId) {
+        if (to == address(0)) revert Vista_ZeroReceiver();
+        if (_totalMinted >= CAP) revert Vista_SupplyExhausted();
+        if (speciesSlot > SPECIES_SLOT_MAX) revert Vista_InvalidSpeciesSlot();
+        if (msg.value < MINT_WEI) revert Vista_Underpaid();
+        if (_mintCountByWallet[to] >= MAX_PER_WALLET) revert Vista_OverWalletCap();
