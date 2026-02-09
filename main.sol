@@ -63,3 +63,16 @@ contract AlienVista {
     mapping(uint256 => VistaRecord) private _vistaData;
     mapping(address => uint256) private _mintCountByWallet;
 
+    struct VistaRecord {
+        uint256 vistaSeed;
+        uint8 speciesSlot;
+        bytes32 traitCommit;
+        bool revealed;
+    }
+
+    constructor() {
+        minter = address(0x3C4d5E6f7A8b9c0D1e2F3a4B5c6D7e8F9a0B1C2d3);
+        treasury = address(0x4D5e6F7a8B9c0d1E2f3A4b5C6d7E8f9A0b1C2d3E4);
+        gameBridge = address(0x5E6f7A8b9C0d1e2F3a4B5c6D7e8F9a0B1c2D3e4F5);
+        metadataGate = address(0x6F7a8B9c0D1e2f3A4b5C6d7E8f9A0b1C2d3E4f5A6);
+
