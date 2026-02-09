@@ -128,3 +128,16 @@ contract AlienVista {
         emit VistaMinted(to, tokenId, vistaSeed, speciesSlot);
         return tokenId;
     }
+
+    function revealTraits(uint256 tokenId, bytes32 traitCommit) external onlyMinter {
+        if (_ownerOf[tokenId] == address(0)) revert Vista_InvalidToken();
+        VistaRecord storage rec = _vistaData[tokenId];
+        if (rec.revealed) revert Vista_InvalidToken();
+        rec.traitCommit = traitCommit;
+        rec.revealed = true;
+        emit VistaRevealed(tokenId, traitCommit);
+    }
+
+    function advancePhase() external onlyMinter {
+        uint8 next = currentPhase + 1;
+        if (next > 4) revert Vista_InvalidPhase();
