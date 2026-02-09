@@ -50,3 +50,16 @@ contract AlienVista {
     uint256 private _nextId = 1;
     uint256 private _totalMinted;
     uint256 private _reentrancyGuard;
+    string private _baseURI;
+    address private _royaltyPayee;
+    uint16 private _royaltyBps;
+
+    uint8 public currentPhase;
+
+    mapping(uint256 => address) private _ownerOf;
+    mapping(address => uint256) private _balanceOf;
+    mapping(uint256 => address) private _tokenApproval;
+    mapping(address => mapping(address => bool)) private _operatorApproval;
+    mapping(uint256 => VistaRecord) private _vistaData;
+    mapping(address => uint256) private _mintCountByWallet;
+
