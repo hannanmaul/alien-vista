@@ -115,3 +115,16 @@ contract AlienVista {
             vistaSeed: vistaSeed,
             speciesSlot: speciesSlot,
             traitCommit: bytes32(0),
+            revealed: false
+        });
+
+        _ownerOf[tokenId] = to;
+        _balanceOf[to] += 1;
+
+        (bool sent,) = treasury.call{ value: msg.value }("");
+        require(sent, "Vista: treasury send failed");
+
+        emit Transfer(address(0), to, tokenId);
+        emit VistaMinted(to, tokenId, vistaSeed, speciesSlot);
+        return tokenId;
+    }
