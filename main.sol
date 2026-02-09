@@ -102,3 +102,16 @@ contract AlienVista {
         if (speciesSlot > SPECIES_SLOT_MAX) revert Vista_InvalidSpeciesSlot();
         if (msg.value < MINT_WEI) revert Vista_Underpaid();
         if (_mintCountByWallet[to] >= MAX_PER_WALLET) revert Vista_OverWalletCap();
+
+        uint256 phaseLimit = _phaseSupplyCap(currentPhase);
+        if (_totalMinted >= phaseLimit) revert Vista_PhaseClosed();
+
+        tokenId = _nextId++;
+        _totalMinted += 1;
+        _mintCountByWallet[to] += 1;
+
+        uint256 vistaSeed = uint256(keccak256(abi.encodePacked(block.prevrandao, block.timestamp, tokenId, to)));
+        _vistaData[tokenId] = VistaRecord({
+            vistaSeed: vistaSeed,
+            speciesSlot: speciesSlot,
+            traitCommit: bytes32(0),
