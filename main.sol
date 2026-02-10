@@ -154,3 +154,16 @@ contract AlienVista {
         if (bps > MAX_ROYALTY_BPS) revert Vista_RoyaltyBpsTooHigh();
         _royaltyPayee = payee;
         _royaltyBps = bps;
+        emit RoyaltySet(payee, bps);
+    }
+
+    function _phaseSupplyCap(uint8 phase) internal pure returns (uint256) {
+        if (phase == 1) return 2000;
+        if (phase == 2) return 4000;
+        if (phase == 3) return 6000;
+        return CAP;
+    }
+
+    function ownerOf(uint256 tokenId) public view returns (address) {
+        address o = _ownerOf[tokenId];
+        if (o == address(0)) revert Vista_InvalidToken();
