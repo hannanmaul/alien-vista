@@ -206,3 +206,16 @@ contract AlienVista {
         _tokenApproval[tokenId] = address(0);
         _ownerOf[tokenId] = to;
         _balanceOf[from] -= 1;
+        _balanceOf[to] += 1;
+        emit Transfer(from, to, tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata) public {
+        transferFrom(from, to, tokenId);
+        _checkReceiver(from, to, tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) public {
+        transferFrom(from, to, tokenId);
+        _checkReceiver(from, to, tokenId);
+    }
