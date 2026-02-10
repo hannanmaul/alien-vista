@@ -141,3 +141,16 @@ contract AlienVista {
     function advancePhase() external onlyMinter {
         uint8 next = currentPhase + 1;
         if (next > 4) revert Vista_InvalidPhase();
+        uint8 prev = currentPhase;
+        currentPhase = next;
+        emit PhaseAdvanced(prev, next, block.number);
+    }
+
+    function setBaseURI(string calldata uri) external onlyMinter {
+        _baseURI = uri;
+    }
+
+    function setRoyalty(address payee, uint16 bps) external onlyMinter {
+        if (bps > MAX_ROYALTY_BPS) revert Vista_RoyaltyBpsTooHigh();
+        _royaltyPayee = payee;
+        _royaltyBps = bps;
