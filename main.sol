@@ -193,3 +193,16 @@ contract AlienVista {
     }
 
     function setApprovalForAll(address operator, bool approved) public {
+        _operatorApproval[msg.sender][operator] = approved;
+        emit ApprovalForAll(msg.sender, operator, approved);
+    }
+
+    function transferFrom(address from, address to, uint256 tokenId) public {
+        if (to == address(0)) revert Vista_TransferToZero();
+        if (_ownerOf[tokenId] != from) revert Vista_WrongFrom();
+        if (from != msg.sender && !_operatorApproval[from][msg.sender] && _tokenApproval[tokenId] != msg.sender)
+            revert Vista_NotOwnerNorApproved();
+
+        _tokenApproval[tokenId] = address(0);
+        _ownerOf[tokenId] = to;
+        _balanceOf[from] -= 1;
