@@ -180,3 +180,16 @@ contract AlienVista {
     }
 
     function isApprovedForAll(address owner, address operator) public view returns (bool) {
+        return _operatorApproval[owner][operator];
+    }
+
+    function approve(address to, uint256 tokenId) public {
+        address owner = _ownerOf[tokenId];
+        if (owner == address(0)) revert Vista_InvalidToken();
+        if (to == msg.sender) revert Vista_ApproveToCaller();
+        if (owner != msg.sender && !_operatorApproval[owner][msg.sender]) revert Vista_NotOwnerNorApproved();
+        _tokenApproval[tokenId] = to;
+        emit Approval(owner, to, tokenId);
+    }
+
+    function setApprovalForAll(address operator, bool approved) public {
