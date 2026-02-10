@@ -219,3 +219,16 @@ contract AlienVista {
         transferFrom(from, to, tokenId);
         _checkReceiver(from, to, tokenId);
     }
+
+    function _checkReceiver(address, address to, uint256 tokenId) internal view {
+        if (to.code.length > 0) {
+            try IERC721Receiver(to).onERC721Received(msg.sender, address(0), tokenId, "") returns (bytes4 ret) {
+                if (ret != IERC721Receiver.onERC721Received.selector) revert Vista_TransferToZero();
+            } catch {
+                revert Vista_TransferToZero();
+            }
+        }
+    }
+
+    function tokenURI(uint256 tokenId) external view returns (string memory) {
+        if (_ownerOf[tokenId] == address(0)) revert Vista_InvalidToken();
