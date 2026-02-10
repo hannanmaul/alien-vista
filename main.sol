@@ -167,3 +167,16 @@ contract AlienVista {
     function ownerOf(uint256 tokenId) public view returns (address) {
         address o = _ownerOf[tokenId];
         if (o == address(0)) revert Vista_InvalidToken();
+        return o;
+    }
+
+    function balanceOf(address owner) public view returns (uint256) {
+        return _balanceOf[owner];
+    }
+
+    function getApproved(uint256 tokenId) public view returns (address) {
+        if (_ownerOf[tokenId] == address(0)) revert Vista_InvalidToken();
+        return _tokenApproval[tokenId];
+    }
+
+    function isApprovedForAll(address owner, address operator) public view returns (bool) {
