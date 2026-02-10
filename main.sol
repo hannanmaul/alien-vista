@@ -232,3 +232,16 @@ contract AlienVista {
 
     function tokenURI(uint256 tokenId) external view returns (string memory) {
         if (_ownerOf[tokenId] == address(0)) revert Vista_InvalidToken();
+        return string(abi.encodePacked(_baseURI, _toString(tokenId)));
+    }
+
+    function getVistaRecord(uint256 tokenId) external view returns (
+        uint256 vistaSeed,
+        uint8 speciesSlot,
+        bytes32 traitCommit,
+        bool revealed
+    ) {
+        if (_ownerOf[tokenId] == address(0)) revert Vista_InvalidToken();
+        VistaRecord storage r = _vistaData[tokenId];
+        return (r.vistaSeed, r.speciesSlot, r.traitCommit, r.revealed);
+    }
